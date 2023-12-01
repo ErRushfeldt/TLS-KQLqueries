@@ -1,0 +1,30 @@
+// Service bus
+resources
+| where type == "microsoft.servicebus/namespaces"
+| project name,resourceGroup,minimumTlsVersion=properties.minimumTlsVersion
+
+// SQL Servers
+resources
+| where type == "microsoft.sql/servers"
+| project name,resourceGroup,MinimalTlsVersion=properties.minimalTlsVersion
+
+// Cosmos DB Accounts
+resources
+| where type == "microsoft.documentdb/databaseaccounts"
+| project name,resourceGroup,MinimumTlsVersion=properties.minimalTlsVersion
+
+// Event Hub
+resources
+| where type == "microsoft.eventhub/namespaces"
+| project name,resourceGroup,MinimumTlsVersion=properties.minimumTlsVersion
+
+// Storage Accounts
+resources
+| where type == "microsoft.storage/storageaccounts"
+| project name,resourceGroup,minimumTlsVersion=properties.minimumTlsVersion
+
+// Redis Cache
+resources
+| where type == "microsoft.cache/redis"
+| project name,resourceGroup,minimumTlsVersion=properties.minimumTlsVersion
+

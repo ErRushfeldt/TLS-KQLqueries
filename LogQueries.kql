@@ -1,0 +1,17 @@
+// Key Vault Traffic
+AzureDiagnostics
+| where TimeGenerated > ago(90d) 
+| where ResourceProvider =="MICROSOFT.KEYVAULT" 
+| where isnotempty(tlsVersion_s) and tlsVersion_s !contains "TLS1_2" and tlsVersion_s !contains "TLS1_3"
+| project TimeGenerated,Resource, OperationName, requestUri_s, CallerIPAddress, OperationVersion,clientInfo_s,tlsVersion_s,todouble(tlsVersion_s)
+| sort by TimeGenerated desc
+
+// Traffic through Application Gateway
+AzureDiagnostics
+| where ResourceType == "APPLICATIONGATEWAYS" and OperationName == "ApplicationGatewayAccess"
+| where sslProtocol_s !contains "TLSv1.2"
+
+// Traffic to storage accounts
+StorageBlobLogs
+| where TimeGenerated > ago(7d)
+| summarize count() by TlsVersion
